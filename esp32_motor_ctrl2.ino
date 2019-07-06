@@ -3,7 +3,7 @@
 #define DEBUG 1
 
 //motor
-kal::nxtmotor motor;
+kal::nxtmotor motor[4];//4 motor
 //motor control gain
 #define KP 90.0
 #define KD 0.2
@@ -31,18 +31,17 @@ void IRAM_ATTR onTimer() {  /* this function must be placed in IRAM */
   //control---------------------------------------------------------------------------------------------------------------------------/
   t += Ts;
   //状態取得
-  motor.get_angle(PCNT_UNIT_0,state.theta);
-  dtheta_st.update(state.theta);
-  state.dtheta = dtheta_st.x;
+  motor[0].get_angle(PCNT_UNIT_0,state.theta);
+  dtheta_st.update(state.theta,state.dtheta);
   
   //目標値計算
   sin_wave.update();
   ref.theta = sin_wave.output;
-  dtheta_ref.update(ref.theta);
-  ref.dtheta = dtheta_ref.x;
+  dtheta_ref.update(ref.theta,ref.dtheta);
+  
   //出力計算
   double u = KP*(ref.theta-state.theta) + KD * (ref.dtheta - state.dtheta);
-  motor.drive(u);
+  motor[0].drive(u);
 
 #if DEBUG    
   Serial.print(ref.theta*RAD2DEG);
@@ -59,9 +58,9 @@ void setup() {
   Serial.println("started");
   
   //motorの設定
-  motor.GPIO_setup(GPIO_NUM_14,GPIO_NUM_27);//方向制御ピン設定
-  motor.PWM_setup(GPIO_NUM_12,0);//PWMピン設定
-  motor.encoder_setup(PCNT_UNIT_0,GPIO_NUM_25,GPIO_NUM_26);//エンコーダカウンタ設定
+  motor[0].GPIO_setup(GPIO_NUM_14,GPIO_NUM_27);//方向制御ピン設定
+  motor[0].PWM_setup(GPIO_NUM_12,0);//PWMピン設定
+  motor[0].encoder_setup(PCNT_UNIT_0,GPIO_NUM_25,GPIO_NUM_26);//エンコーダカウンタ設定
 
   //timer割り込み設定
   timer = timerBegin(0, 80, true);//プリスケーラ設定
