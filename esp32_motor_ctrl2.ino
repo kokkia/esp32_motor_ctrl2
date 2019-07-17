@@ -35,10 +35,15 @@ void IRAM_ATTR onTimer() {  /* this function must be placed in IRAM */
   //control---------------------------------------------------------------------------------------------------------------------------/
   t += Ts;
   //状態取得
-  motor[0].get_angle(PCNT_UNIT_0,state[0].theta);
-  motor[1].get_angle(PCNT_UNIT_1,state[1].theta);
-  motor[2].get_angle(PCNT_UNIT_2,state[2].theta);
-  motor[3].get_angle(PCNT_UNIT_3,state[3].theta);
+//  motor[0].get_angle(PCNT_UNIT_0,state[0].theta);
+//  motor[1].get_angle(PCNT_UNIT_1,state[1].theta);
+//  motor[2].get_angle(PCNT_UNIT_2,state[2].theta);
+//  motor[3].get_angle(PCNT_UNIT_3,state[3].theta);
+  motor[0].get_angle(state[0].theta);
+  motor[1].get_angle(state[1].theta);
+  motor[2].get_angle(state[2].theta);
+  motor[3].get_angle(state[3].theta);
+
   for(int i=0;i<MOTOR_NUM;i++){
     dtheta_st[i].update(state[i].theta,state[i].dtheta);  
   }  
