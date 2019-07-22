@@ -19,8 +19,6 @@ kal::RobotData ref[MOTOR_NUM];
 kal::RobotData state[MOTOR_NUM];
 
 //differentiator
-//kal::Diff<double> dtheta_st(0.0,100.0);
-//kal::Diff<double> dtheta_ref(0.0,100.0);
 kal::Diff<double> dtheta_st[MOTOR_NUM];
 kal::Diff<double> dtheta_ref[MOTOR_NUM];
 
@@ -76,13 +74,11 @@ void IRAM_ATTR onTimer() {  /* this function must be placed in IRAM */
   Serial.print(",");
   Serial.print(ain2);     
   Serial.print(",");
-
   Serial.println();
 #endif
   //-------------------------------------------------------------------------------------------------------------------------------------/
   portEXIT_CRITICAL_ISR(&timerMux);
 }
-
 
 void setup() {
   Serial.begin(115200);
@@ -92,15 +88,11 @@ void setup() {
   motor[0].GPIO_setup(GPIO_NUM_4,GPIO_NUM_0);//方向制御ピン設定
   motor[0].PWM_setup(GPIO_NUM_2,0);//PWMピン設定
   motor[0].encoder_setup(PCNT_UNIT_0,GPIO_NUM_36,GPIO_NUM_39);//エンコーダカウンタ設定
-//  motor[0].GPIO_setup(GPIO_NUM_14,GPIO_NUM_27);//方向制御ピン設定
-//  motor[0].PWM_setup(GPIO_NUM_12,0);//PWMピン設定
-//  motor[0].encoder_setup(PCNT_UNIT_0,GPIO_NUM_25,GPIO_NUM_26);//エンコーダカウンタ設定
   //motor2
   motor[1].GPIO_setup(GPIO_NUM_16,GPIO_NUM_17);//方向制御ピン設定
   motor[1].PWM_setup(GPIO_NUM_15,0);//PWMピン設定
   motor[1].encoder_setup(PCNT_UNIT_1,GPIO_NUM_34,GPIO_NUM_35);//エンコーダカウンタ設定
   //motor3
-  //motor[2].GPIO_setup(GPIO_NUM_14,GPIO_NUM_27);//方向制御ピン設定
   motor[2].GPIO_setup(GPIO_NUM_5,GPIO_NUM_21);//方向制御ピン設定
   motor[2].PWM_setup(GPIO_NUM_13,0);//PWMピン設定
   motor[2].encoder_setup(PCNT_UNIT_2,GPIO_NUM_32,GPIO_NUM_33);//エンコーダカウンタ設定
