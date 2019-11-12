@@ -19,8 +19,6 @@ kal::RobotData<double> ref[MOTOR_NUM];
 kal::RobotData<double> state[MOTOR_NUM];
 
 //differentiator
-//kal::Diff<double> dtheta_st(0.0,100.0);
-//kal::Diff<double> dtheta_ref(0.0,100.0);
 kal::Diff<double> dtheta_st[MOTOR_NUM];
 kal::Diff<double> dtheta_ref[MOTOR_NUM];
 
