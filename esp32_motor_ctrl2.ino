@@ -15,8 +15,8 @@ kal::nxtmotor motor[MOTOR_NUM];//4 motor
 kal::wave sin_wave(0.0,PI/3,0.5,SIN);
 
 //robotdata
-kal::RobotData ref[MOTOR_NUM];
-kal::RobotData state[MOTOR_NUM];
+kal::RobotData<double> ref[MOTOR_NUM];
+kal::RobotData<double> state[MOTOR_NUM];
 
 //differentiator
 //kal::Diff<double> dtheta_st(0.0,100.0);
@@ -35,10 +35,10 @@ void IRAM_ATTR onTimer() {  /* this function must be placed in IRAM */
   //control---------------------------------------------------------------------------------------------------------------------------/
   t += Ts;
   //状態取得
-  motor[0].get_angle(PCNT_UNIT_0,state[0].theta);
-  motor[1].get_angle(PCNT_UNIT_1,state[1].theta);
-  motor[2].get_angle(PCNT_UNIT_2,state[2].theta);
-  motor[3].get_angle(PCNT_UNIT_3,state[3].theta);
+  motor[0].get_angle(state[0].theta);
+  motor[1].get_angle(state[1].theta);
+  motor[2].get_angle(state[2].theta);
+  motor[3].get_angle(state[3].theta);
   for(int i=0;i<MOTOR_NUM;i++){
     dtheta_st[i].update(state[i].theta,state[i].dtheta);  
   }  
@@ -87,9 +87,9 @@ void setup() {
   motor[0].GPIO_setup(GPIO_NUM_4,GPIO_NUM_0);//方向制御ピン設定
   motor[0].PWM_setup(GPIO_NUM_2,0);//PWMピン設定
   motor[0].encoder_setup(PCNT_UNIT_0,GPIO_NUM_36,GPIO_NUM_39);//エンコーダカウンタ設定
-//  motor[0].GPIO_setup(GPIO_NUM_14,GPIO_NUM_27);//方向制御ピン設定
-//  motor[0].PWM_setup(GPIO_NUM_12,0);//PWMピン設定
-//  motor[0].encoder_setup(PCNT_UNIT_0,GPIO_NUM_25,GPIO_NUM_26);//エンコーダカウンタ設定
+//  motor[0].GPIO_setup(GPIO_NUM_4,GPIO_NUM_0);//方向制御ピン設定
+//  motor[0].PWM_setup(GPIO_NUM_2,0);//PWMピン設定
+//  motor[0].encoder_setup(PCNT_UNIT_0,GPIO_NUM_36,GPIO_NUM_39);//エンコーダカウンタ設定
   //motor2
   motor[1].GPIO_setup(GPIO_NUM_16,GPIO_NUM_17);//方向制御ピン設定
   motor[1].PWM_setup(GPIO_NUM_15,0);//PWMピン設定
